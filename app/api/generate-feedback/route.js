@@ -28,7 +28,7 @@ export async function POST(request) {
           7. Always respond in simple English, even if the input is in Turkish.
           8. End each interaction with a positive note and a fun question to encourage further conversation.
 
-          Remember, you are teaching English, so use only English in your responses. Keep your language simple, clear, and engaging for child learners.`
+          Remember, you are teaching English, so use only English in your responses. Keep your language simple, clear, and engaging for childrens.`
         },
         { 
           role: "user", 

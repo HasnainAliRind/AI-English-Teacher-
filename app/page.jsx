@@ -95,7 +95,7 @@ export default function Speak() {
       const transcriptionData = await transcriptionResponse.json();
 
       // Update conversation with user input
-      setConversation((prev) => [...prev, { type: 'user', text: transcriptionData.text }]);
+      setConversation((prev) => [...prev, { role: 'user', content: transcriptionData.text }]);
 
       // Generate Feedback
       const feedbackResponse = await fetch('/api/generate-feedback', {
@@ -103,7 +103,7 @@ export default function Speak() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text: transcriptionData.text }),
+        body: JSON.stringify({ text: transcriptionData.text, conversations: conversation }),
       });
 
       if (!feedbackResponse.ok) {
@@ -113,7 +113,7 @@ export default function Speak() {
       const feedbackData = await feedbackResponse.json();
 
       // Update conversation with AI response
-      setConversation((prev) => [...prev, { type: 'ai', text: feedbackData.feedback }]);
+      setConversation((prev) => [...prev, { role: 'assistant', content: feedbackData.feedback }]);
 
       // Text to Speech
       const audioResponse = await fetch('/api/text-to-speech', {
@@ -203,11 +203,11 @@ export default function Speak() {
               <p
                 key={index}
                 className={`text-sm sm:text-base ${
-                  entry.type === 'user' ? 'text-black' : 'text-blue-700'
+                  entry.role === 'user' ? 'text-black' : 'text-blue-700'
                 }`}
               >
-                <strong>{entry.type === 'user' ? 'You: ' : 'AI: '}</strong>
-                {entry.text}
+                <strong>{entry.role === 'user' ? 'You: ' : 'AI: '}</strong>
+                {entry.content}
               </p>
             ))}
           </div>
